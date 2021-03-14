@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 const HomeScreenRoot = ({ props }) => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const { pathogens, refresh } = HomeStore.useHomeStoreContext();
-    const { dirty, setDirty, setCurrentPid, setEditMode } = AppStore.useAppContext();
+    const { modeEnum, dirty, setDirty, setCurrentPid, setEditMode } = AppStore.useAppContext();
 
     React.useEffect(() => {
         if (dirty) {
@@ -50,7 +50,7 @@ const HomeScreenRoot = ({ props }) => {
                             variant='contained'
                             color='primary'
                             onClick={() => {
-                                setEditMode('edit');
+                                setEditMode(modeEnum.edit);
                                 setCurrentPid(index);
                             }}
                         >

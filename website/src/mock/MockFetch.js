@@ -41,16 +41,16 @@ pathogenDb.push(
   ),
 );
 
-export default mockfetch = (url, params) => {
+const mockfetch = (url, params) => {
   console.log(`api: ${url} is invoked`);
-  if (url.indexOf('search') != -1) {
+  if (url.indexOf('search') !== -1) {
     return new Promise((resolve, reject) => {
       resolve(JSON.stringify(pathogenDb));
     });
   }
-  if (params == undefined || params.body == undefined) {
+  if (params === undefined || params.body === undefined) {
     let lastIndex = url.lastIndexOf('/');
-    if (lastIndex != -1) {
+    if (lastIndex !== -1) {
       let idStr = url.substr(lastIndex + 1);
       let id = parseInt(idStr);
       if (id < pathogenDb.length) {
@@ -60,13 +60,13 @@ export default mockfetch = (url, params) => {
       }
     }
   }
-  if (params.method == 'POST' && url.indexOf('pathogens') != -1) {
+  if (params.method === 'POST' && url.indexOf('pathogens') !== -1) {
     let json = JSON.parse(params.body);
     if (json.id >= 0 && json.id < pathogenDb.length) {
       pathogenDb[json.id] = json;
     }
   }
-  if (params.method == 'PUT') {
+  if (params.method === 'PUT') {
     let json = JSON.parse(params.body);
     json.id = pathogenDb.length;
     pathogenDb.push(json);
@@ -76,3 +76,5 @@ export default mockfetch = (url, params) => {
     reject();
   });
 };
+
+export default mockfetch;

@@ -9,20 +9,27 @@ const DetailScreenRoot = (props) => {
     const {
         fields,
         pathogen,
-        setPid,
+        fetchPathogen,
         updatePathogen,
         createPathogen,
         getPathogenFieldValue,
         updatePathogenFieldValue,
+        resetPathogen,
     } = DetailStore.useDetailStoreContext();
-    const { currentPid, setDirty, editMode } = AppStore.useAppContext();
+    const {
+        modeEnum,
+        currentPid,
+        setDirty,
+        editMode,
+    } = AppStore.useAppContext();
 
     React.useEffect(() => {
-        if (currentPid != undefined) setPid(currentPid);
+        if (currentPid != undefined) fetchPathogen(currentPid);
+        else resetPathogen();
     }, [currentPid]);
 
     const clickHandler = () => {
-        if (editMode === 'edit') {
+        if (editMode === modeEnum.edit) {
             updatePathogen(pathogen);
         } else {
             createPathogen(pathogen);
@@ -32,16 +39,17 @@ const DetailScreenRoot = (props) => {
 
     return (
         <div style={styles.root}>
-            <Typography variant='h2' noWrap>
+            <Typography variant='h2' noWrap style={{marginTop: 20}}>
                 {(() => {
                     switch (editMode) {
-                        case 'edit':
+                        case modeEnum.edit:
                             return 'View and Update';
                         default:
                             return 'Details';
                     }
                 })()}
             </Typography>
+            <div style={{height: 2, backgroundColor: 'lightgray'}}/>
             {fields.map((field, index) => {
                 return (
                     <TextField
@@ -52,8 +60,10 @@ const DetailScreenRoot = (props) => {
                         rows={index == 4 ? 8 : 1}
                         label={field}
                         value={getPathogenFieldValue(index)}
-                        onChange={event => updatePathogenFieldValue(index, event.target.value)}
-                        disabled={editMode === 'init' ? true : false}
+                        onChange={(event) =>
+                            updatePathogenFieldValue(index, event.target.value)
+                        }
+                        disabled={editMode === modeEnum.init ? true : false}
                     />
                 );
             })}
@@ -62,12 +72,12 @@ const DetailScreenRoot = (props) => {
                     size='large'
                     variant='contained'
                     color='primary'
-                    onClick={() => {clickHandler}}
-                    disabled={editMode === 'init' ? true : false}
+                    onClick={clickHandler}
+                    disabled={editMode === modeEnum.init ? true : false}
                 >
                     {(() => {
                         switch (editMode) {
-                            case 'create':
+                            case modeEnum.create:
                                 return 'Create New';
                             default:
                                 return 'Update';

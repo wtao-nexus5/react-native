@@ -13,9 +13,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
+import AppStore from './screens/appStore';
 
 function App() {
     const classes = useStyles();
+    const { modeEnum, setCurrentPid, setEditMode } = AppStore.useAppContext();
 
     return (
         <div className={classes.grow}>
@@ -47,10 +49,14 @@ function App() {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton
-                            color='inherit'
-                        >
-                            <Badge color='secondary'>
+                        <IconButton color='inherit'>
+                            <Badge
+                                color='secondary'
+                                onClick={() => {
+                                    setEditMode(modeEnum.create);
+                                    setCurrentPid(undefined);
+                                }}
+                            >
                                 <AddIcon />
                             </Badge>
                         </IconButton>
@@ -61,8 +67,8 @@ function App() {
                 <div style={{ width: '40%' }}>
                     <HomeScreen />
                 </div>
-                <div style = {{width: '3px', backgroundColor: 'lightgray'}}/>
-                <div style={{ width: '60%'}}>
+                <div style={{ width: '3px', backgroundColor: 'lightgray' }} />
+                <div style={{ width: '60%' }}>
                     <DetailScreen />
                 </div>
             </div>
