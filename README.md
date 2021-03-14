@@ -3,7 +3,8 @@ Frontend only. Backend mocked.
 
 Implemented a pathogen libray app for both mobile and website using react. 
 
-Points of consideration are desribed in the [Features](#features) section
+* Points of consideration are desribed in the [Features](#features) section
+* Additional questions can be found in the [questionnaire.md](./questionnaire.md) file
 
 ## Screenshots
 <div style="display: flex; flex-direction: row;">
@@ -23,6 +24,7 @@ Points of consideration are desribed in the [Features](#features) section
 | Upload gnome file   | ❌      |  ✅      |
 | Responsive UI   | ❌      |  ❌      |
 | Deeplink   | ❌      |  ❌      |
+| Material UI design language      | ✅       | ✅       | Architecture item
 | Input field validation      | ✅       | ✅       | Architecture item<br /> Keywords:<br /> `updateFieldError`, `DetailFieldValidator.js`
 | Internationalization      | ✅       | ✅       | Architecture item<br /> Keywords:<br /> `<I18nStore.I18nProvider>`, `currentDictionary`
 | Unified error handling      | ✅       | ✅       | Architecture item<br /> Keywords: <br />`<Snackbar>`, `[showError, setShowError]`, `[errorMsg, setErrorMsg]`
