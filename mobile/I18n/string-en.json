@@ -1,0 +1,7 @@
+{
+    "ID_FIELD_NAME": "Name",
+    "ID_FIELD_SCIENTIFIC_NAME": "Scientific Name",
+    "ID_FIELD_FAMILIY": "Family",
+    "ID_FIELD_VIRAL_FACTOR": "Viral Factor",
+    "ID_FIELD_SYMPTOMS": "Clinical Symptoms"
+}

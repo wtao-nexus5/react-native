@@ -1,4 +1,5 @@
 let pathogenDb = [];
+let forceThrow = false;
 
 const createPathogen = (
   id,

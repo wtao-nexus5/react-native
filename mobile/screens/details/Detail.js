@@ -4,6 +4,7 @@ import DetailStore from './DetailStore';
 import {TextInput, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import AppStore from '../appStore';
+import I18nStore from '../../I18n/I18nStore';
 
 const DetailScreenRoot = props => {
   const navigation = useNavigation();
@@ -21,6 +22,7 @@ const DetailScreenRoot = props => {
     dirty,
     setDirty
   } = AppStore.useAppContext();
+  const {currentDictionary} = I18nStore.useI18nContext();
 
   React.useEffect(() => {
     if (props.params.id != undefined) setPid(props.params.id);
@@ -58,7 +60,7 @@ const DetailScreenRoot = props => {
                   style={styles.textInput}
                   mode="outlined"
                   multiline={index == 4 ? true : false}
-                  label={item}
+                  label={currentDictionary[item]}
                   value={getPathogenFieldValue(index)}
                   onChangeText={text => updatePathogenFieldValue(index, text)}
                 />

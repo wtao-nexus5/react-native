@@ -72,12 +72,11 @@ const DetailContextProvider = ({children}) => {
   };
 
   const fields = [
-    'Name',
-    'Scientific Name',
-    'Family',
-    'Viral Factor',
-    'Clinical Symptoms',
-    'Submit',
+    'ID_FIELD_NAME',
+    'ID_FIELD_SCIENTIFIC_NAME',
+    'ID_FIELD_FAMILIY',
+    'ID_FIELD_VIRAL_FACTOR',
+    'ID_FIELD_SYMPTOMS',
   ];
 
   return (

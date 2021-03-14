@@ -15,6 +15,7 @@ import DetailScreen from './screens/details/Detail';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider as PaperProvider} from 'react-native-paper';
 import AppStore from './screens/appStore';
+import I18nStore from './I18n/I18nStore';
 
 const Stack = createStackNavigator();
 
@@ -27,14 +28,16 @@ const App = () => {
 
   return (
     <AppStore.AppContextProvider>
-      <PaperProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name='Home' component={HomeScreen} />
-            <Stack.Screen name='Details' component={DetailScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
+      <I18nStore.I18nProvider>
+        <PaperProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Details" component={DetailScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
+      </I18nStore.I18nProvider>
     </AppStore.AppContextProvider>
   );
 };

@@ -4,6 +4,7 @@ import AppStore from '../appStore';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import I18nStore from '../../I18n/I18nStore';
 
 const DetailScreenRoot = (props) => {
     const {
@@ -24,6 +25,7 @@ const DetailScreenRoot = (props) => {
         setDirty,
         editMode,
     } = AppStore.useAppContext();
+    const {currentDictionary} = I18nStore.useI18nContext();
 
     React.useEffect(() => {
         if (currentPid != undefined) fetchPathogen(currentPid);
@@ -64,7 +66,7 @@ const DetailScreenRoot = (props) => {
                         variant='outlined'
                         multiline={index == 4 ? true : false}
                         rows={index == 4 ? 8 : 1}
-                        label={field}
+                        label={currentDictionary[field]}
                         value={getPathogenFieldValue(index)}
                         onChange={(event) =>
                             updatePathogenFieldValue(index, event.target.value)

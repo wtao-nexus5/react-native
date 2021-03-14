@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AppStore from './screens/appStore';
+import I18nStore from './I18n/I18nStore';
 
 ReactDOM.render(
   <React.StrictMode>
     <AppStore.AppContextProvider>
-      <App />
+      <I18nStore.I18nProvider>
+        <App />
+      </I18nStore.I18nProvider>
     </AppStore.AppContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
