@@ -6,11 +6,16 @@ const {Provider} = HomeContext;
 
 const HomeContextProvider = ({children}) => {
   const [pathogens, setPathogens] = React.useState([]);
-  const {restApi} = AppStore.useAppContext();
+  const {restApi, setShowError, setErrorMsg} = AppStore.useAppContext();
 
   const refresh = async (query) => {
-    const pathogens = await restApi.getPathogens(query, 0);
-    setPathogens(pathogens);
+    try {
+      const pathogens = await restApi.getPathogens(query, 0);
+      setPathogens(pathogens);
+    } catch (error) {
+      setShowError(true);
+      setErrorMsg(error);
+    }
   };
 
   return (

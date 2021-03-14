@@ -14,10 +14,25 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import AppStore from './screens/appStore';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
+};
 
 function App() {
     const classes = useStyles();
-    const { modeEnum, setCurrentPid, setEditMode, setSearchQuery, setDirty } = AppStore.useAppContext();
+    const {
+        modeEnum,
+        setCurrentPid,
+        setEditMode,
+        setSearchQuery,
+        setDirty,
+        showError,
+        setShowError,
+        errorMsg,
+    } = AppStore.useAppContext();
 
     return (
         <div className={classes.grow}>
@@ -44,9 +59,10 @@ function App() {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
-                            onChange = {event => {
+                            onChange={(event) => {
                                 setSearchQuery(event.target.value);
-                                setDirty(true)}}
+                                setDirty(true);
+                            }}
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </div>
@@ -75,6 +91,11 @@ function App() {
                     <DetailScreen />
                 </div>
             </div>
+            <Snackbar open={showError} autoHideDuration={6000} onClose={()=> setShowError(false)}>
+                <Alert onClose={()=> setShowError(false)} severity='error'>
+                    {errorMsg}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

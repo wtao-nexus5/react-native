@@ -11,7 +11,14 @@ import Typography from '@material-ui/core/Typography';
 
 const HomeScreenRoot = ({ props }) => {
     const { pathogens, refresh } = HomeStore.useHomeStoreContext();
-    const { searchQuery, modeEnum, dirty, setDirty, setCurrentPid, setEditMode } = AppStore.useAppContext();
+    const {
+        searchQuery,
+        modeEnum,
+        dirty,
+        setDirty,
+        setCurrentPid,
+        setEditMode
+    } = AppStore.useAppContext();
 
     React.useEffect(() => {
         if (dirty) {

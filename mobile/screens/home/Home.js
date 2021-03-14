@@ -9,6 +9,7 @@ import {
   Card,
   Paragraph,
   Colors,
+  Snackbar
 } from 'react-native-paper';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,7 +19,7 @@ const HomeScreenRoot = ({props}) => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = React.useState('');
   const {pathogens, refresh} = HomeStore.useHomeStoreContext();
-  const {dirty, setDirty} = AppStore.useAppContext();
+  const {dirty, setDirty, showError, setShowError, errorMsg} = AppStore.useAppContext();
 
   React.useEffect(() => {
     if (dirty) {
@@ -90,6 +91,15 @@ const HomeScreenRoot = ({props}) => {
           <Icon name='md-refresh' style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
+      <Snackbar
+        visible={showError}
+        onDismiss={() => setShowError(false)}
+        action={{
+          label: 'Dismiss',
+          onPress: () => setShowError(false),
+        }}>
+        {errorMsg}
+      </Snackbar>
     </SafeAreaView>
   );
 };

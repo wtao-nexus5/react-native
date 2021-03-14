@@ -44,6 +44,12 @@ pathogenDb.push(
 
 export default mockfetch = (url, params) => {
   console.log(`api: ${url} is invoked`);
+  if (forceThrow) {
+    return new Promise((resolve, reject) => {
+      throw 'connection lost';
+    });
+  }
+
   if (url.indexOf('search') != -1) {
     let index = url.indexOf('?name');
     if (index != -1) {

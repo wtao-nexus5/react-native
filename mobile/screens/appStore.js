@@ -8,13 +8,19 @@ const {Provider} = AppContext;
 const AppContextProvider = ({children}) => {
   const [dirty, setDirty] = React.useState(true);
   const restApi = new RestApis(MockFetch, 'https://www.example.com');
+  const [showError, setShowError] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
 
   return (
     <Provider
       value={{
         restApi,
         dirty,
-        setDirty
+        setDirty,
+        showError, 
+        setShowError,
+        errorMsg, 
+        setErrorMsg
       }}>
       {children}
     </Provider>
