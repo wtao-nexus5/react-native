@@ -1,0 +1,12 @@
+```sql
+CREATE TABLE pathogen (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(255) NOT NULL,
+ scientificName VARCHAR(255) NOT NULL,
+ family VARCHAR(255) NOT NULL,
+ viralFactor VARCHAR(255) NOT NULL,
+ clinicalSymptoms VARCHAR(65535) NOT NULL
+ genomeHashDigest VARCHAR(255) NOT NULL,
+ genomeUrl VARCHAR(255) NOT NULL,
+)
+```

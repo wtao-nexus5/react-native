@@ -5,6 +5,7 @@ Implemented a pathogen libray app for both mobile and website using react.
 
 * Points of consideration are desribed in the [Features](#features) section
 * Additional questions can be found in the [questionnaire.md](./questionnaire.md) file
+* Database schema at [db-schema.md](./db-schema.md) file
 
 ## Screenshots
 <div style="display: flex; flex-direction: row;">
@@ -21,7 +22,7 @@ Implemented a pathogen libray app for both mobile and website using react.
 | Search by gnome   | ❌      |  ❌      | TODO: <br />1. Upload a gnome file to calculate a MD5 hash<br /> 2. Then query exiting pathogens with same hash value
 | Search result pagination   | ❌      |  ❌      | TODO: <br />page number placeholder http parameter has been added 
 | Add tag   | ❌      |  ❌      |
-| Upload gnome file   | ❌      |  ✅      |
+| Upload gnome file   | ❌      |  ✅      | MD5 hash is generated
 | Responsive UI   | ❌      |  ❌      |
 | Deeplink   | ❌      |  ❌      |
 | Material UI design language      | ✅       | ✅       | Architecture item
