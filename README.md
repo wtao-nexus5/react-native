@@ -2,8 +2,10 @@
 Frontend only. Backned mocked.
 
 ## Screenshots
-<img src="./assets/ios1.png" width="120">
-<img src="./assets/ios2.png" width="120">
+<div style="display: flex; flex-direction: row;">
+    <img src="./assets/ios1.png" width="180" />
+    <img src="./assets/ios2.png" width="180" />
+</div>
 
 ## Features
 | Features      | Mobile (android+ios) | Website | Notes
