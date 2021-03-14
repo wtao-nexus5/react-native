@@ -8,6 +8,7 @@ const createPathogen = (
   family,
   viralFactor,
   ClinicalSymptoms,
+  genomeHashDigest,
 ) => {
   return {
     id,
@@ -16,8 +17,8 @@ const createPathogen = (
     family,
     viralFactor,
     ClinicalSymptoms,
+    genomeHashDigest,
     genomeUrl: '',
-    genomeHashDigest: '',
   };
 };
 
@@ -29,6 +30,7 @@ pathogenDb.push(
     'virus',
     'colonization',
     'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident',
+    '4d44031560075325c5c465522346bd86',
   ),
 );
 pathogenDb.push(
@@ -39,6 +41,7 @@ pathogenDb.push(
     'virus',
     'immunosuppression',
     'similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio',
+    '13ee343d0075325cdeadbe522346cdab',
   ),
 );
 
@@ -57,7 +60,7 @@ export default mockfetch = (url, params) => {
       index = value.indexOf('&');
       let query = value.substr(0, index);
       return new Promise((resolve, reject) => {
-        let subset = pathogenDb.filter((item) => item.name.indexOf(query) != -1);
+        let subset = pathogenDb.filter(item => item.name.indexOf(query) != -1);
         resolve(JSON.stringify(subset));
       });
     }
@@ -91,6 +94,13 @@ export default mockfetch = (url, params) => {
       resolve(JSON.stringify({id: json.id}));
     });
   }
+  if (url.indexOf('upload') !== -1) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, 1500);
+    });
+}
 
   return new Promise((resolve, reject) => {
     reject();

@@ -21,22 +21,26 @@ const DetailScreenRoot = props => {
     fieldErrors,
     updateFieldError,
   } = DetailStore.useDetailStoreContext();
-  const {dirty, setDirty, busy} = AppStore.useAppContext();
+  const {dirty, setDirty, busy, setBusy} = AppStore.useAppContext();
   const {currentDictionary} = I18nStore.useI18nContext();
 
   React.useEffect(() => {
     if (props.params.id != undefined) setPid(props.params.id);
   }, []);
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
+    setBusy(true)
     if (props.params.edit) {
-      updatePathogen(pathogen);
+      await updatePathogen(pathogen, uploadFile);
     } else {
-      createPathogen(pathogen);
+      await createPathogen(pathogen, uploadFile);
       navigation.goBack();
     }
     setDirty(true);
+    setBusy(false);
   };
+
+  const [uploadFile, setUploadFile] = React.useState();
 
   return (
     <SafeAreaView pointerEvents={busy ? 'none' : 'auto'}>
@@ -45,7 +49,7 @@ const DetailScreenRoot = props => {
         data={fields}
         renderItem={({item, index}) => {
           switch (index) {
-            case 5:
+            case 6:
               return (
                 <Button
                   style={styles.button}
@@ -64,12 +68,10 @@ const DetailScreenRoot = props => {
                   value={getPathogenFieldValue(index)}
                   onChangeText={text => {
                     updatePathogenFieldValue(index, text);
-                    let error = validateError(
-                      currentDictionary[item],
-                      text
-                  );
-                  updateFieldError(index, error);
+                    let error = validateError(currentDictionary[item], text);
+                    updateFieldError(index, error);
                   }}
+                  disabled={index === 5 ? true : false}
                   error={fieldErrors[index]}
                 />
               );

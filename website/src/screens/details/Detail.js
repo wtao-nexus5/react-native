@@ -18,7 +18,7 @@ const DetailScreenRoot = (props) => {
         updatePathogenFieldValue,
         resetPathogen,
         fieldErrors,
-        updateFieldError
+        updateFieldError,
     } = DetailStore.useDetailStoreContext();
     const {
         modeEnum,
@@ -27,6 +27,7 @@ const DetailScreenRoot = (props) => {
         currentPid,
         setDirty,
         editMode,
+        setBusy
     } = AppStore.useAppContext();
     const { currentDictionary } = I18nStore.useI18nContext();
 
@@ -36,15 +37,19 @@ const DetailScreenRoot = (props) => {
     }, [currentPid]);
 
     const clickHandler = async () => {
+        setBusy(true)
         if (editMode === modeEnum.edit) {
-            updatePathogen(pathogen);
+            await updatePathogen(pathogen, uploadFile);
         } else {
-            let result = await createPathogen(pathogen);
+            let result = await createPathogen(pathogen, uploadFile);
             setEditMode(modeEnum.edit);
             setCurrentPid(result.id);
         }
         setDirty(true);
+        setBusy(false);
     };
+
+    const [uploadFile, setUploadFile] = React.useState();
 
     return (
         <div style={styles.root}>
@@ -80,10 +85,11 @@ const DetailScreenRoot = (props) => {
                             updateFieldError(index, error);
                         }}
                         error={fieldErrors[index]}
-                        disabled={editMode === modeEnum.init ? true : false}
+                        disabled={editMode === modeEnum.init ? true : (index === 5 ? true : false)}
                     />
                 );
             })}
+            <input style={{marginLeft: 10}} type='file' onChange={event => setUploadFile(event.target.files[0])}/>
             <div style={styles.button}>
                 <Button
                     size='large'

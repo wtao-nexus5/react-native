@@ -1,5 +1,6 @@
 import * as React from 'react';
 import AppStore from '../appStore';
+import CryptoJS from 'crypto-js';
 
 const DetailContext = React.createContext();
 const {Provider} = DetailContext;
@@ -11,6 +12,8 @@ const DetailContextProvider = ({children}) => {
     family: '',
     viralFactor: '',
     ClinicalSymptoms: '',
+    genomeHashDigest: '',
+    genomeUrl: '',
   });
   const [pid, setPid] = React.useState();
   const {restApi} = AppStore.useAppContext();
@@ -25,12 +28,37 @@ const DetailContextProvider = ({children}) => {
     }
   }, [pid]);
 
-  const updatePathogen = async pathogen => {
-    return restApi.updatePathogen(pathogen);
+  const uploadFile = async (pathogen, file) => {
+    let copy = {...pathogen};
+    return new Promise(resolve => {
+      if (file !== undefined) {
+        let reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = async event => {
+          var md5 = CryptoJS.MD5(event.target.result).toString();
+          await restApi.uploadFile(file, pathogen.id);
+          copy.genomeHashDigest = md5;
+          resolve(copy);
+        };
+        reader.onerror = () => {
+          throw 'bad file';
+        };
+      } else {
+        resolve(copy);
+      }
+    });
   };
 
-  const createPathogen = async pathogen => {
-    return restApi.createPathogen(pathogen);
+  const updatePathogen = async (pathogen, gnomeFile) => {
+    let copy = await uploadFile(pathogen, gnomeFile);
+    setPathogen(copy);
+    return restApi.updatePathogen(copy);
+  };
+
+  const createPathogen = async (pathogen, gnomeFile) => {
+    let copy = await uploadFile(pathogen, gnomeFile);
+    setPathogen(copy);
+    return restApi.createPathogen(copy);
   };
 
   const getPathogenFieldValue = fieldIndex => {
@@ -45,6 +73,8 @@ const DetailContextProvider = ({children}) => {
         return pathogen.viralFactor;
       case 4:
         return pathogen.ClinicalSymptoms;
+      case 5:
+        return pathogen.genomeHashDigest;
     }
     return '';
   };
@@ -77,6 +107,8 @@ const DetailContextProvider = ({children}) => {
     'ID_FIELD_FAMILIY',
     'ID_FIELD_VIRAL_FACTOR',
     'ID_FIELD_SYMPTOMS',
+    'ID_FIELD_HASH',
+    'CTA'
   ];
   const [fieldErrors, setFieldErrors] = React.useState(
     fields.map(item => false),

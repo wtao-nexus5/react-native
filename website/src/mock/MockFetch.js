@@ -7,7 +7,8 @@ const createPathogen = (
     scientificName,
     family,
     viralFactor,
-    ClinicalSymptoms
+    ClinicalSymptoms,
+    genomeHashDigest
 ) => {
     return {
         id,
@@ -16,8 +17,8 @@ const createPathogen = (
         family,
         viralFactor,
         ClinicalSymptoms,
-        genomeUrl: '',
-        genomeHashDigest: '',
+        genomeHashDigest,
+        genomeUrl: ''
     };
 };
 
@@ -28,7 +29,8 @@ pathogenDb.push(
         'Human papillomavirus',
         'virus',
         'colonization',
-        'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident'
+        'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident',
+        '4d44031560075325c5c465522346bd86'
     )
 );
 pathogenDb.push(
@@ -38,7 +40,8 @@ pathogenDb.push(
         'Human immunodeficiency viruses ',
         'virus',
         'immunosuppression',
-        'similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio'
+        'similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio',
+        '13ee343d0075325cdeadbe522346cdab'
     )
 );
 
@@ -46,7 +49,7 @@ const mockfetch = (url, params) => {
     console.log(`api: ${url} is invoked`);
     if (forceThrow) {
         return new Promise((resolve, reject) => {
-          throw 'connection lost';
+            throw 'connection lost';
         });
     }
 
@@ -91,6 +94,13 @@ const mockfetch = (url, params) => {
         pathogenDb.push(json);
         return new Promise((resolve, reject) => {
             resolve(JSON.stringify({ id: json.id }));
+        });
+    }
+    if (url.indexOf('upload') !== -1) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 1500);
         });
     }
 
