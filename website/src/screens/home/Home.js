@@ -10,13 +10,12 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const HomeScreenRoot = ({ props }) => {
-    const [searchQuery, setSearchQuery] = React.useState('');
     const { pathogens, refresh } = HomeStore.useHomeStoreContext();
-    const { modeEnum, dirty, setDirty, setCurrentPid, setEditMode } = AppStore.useAppContext();
+    const { searchQuery, modeEnum, dirty, setDirty, setCurrentPid, setEditMode } = AppStore.useAppContext();
 
     React.useEffect(() => {
         if (dirty) {
-            refresh('name=_');
+            refresh(`name=${searchQuery}`);
         }
     }, [dirty]);
 
@@ -24,8 +23,6 @@ const HomeScreenRoot = ({ props }) => {
         console.log(pathogens);
         setDirty(false);
     }, [pathogens]);
-
-    const onChangeSearch = (query) => setSearchQuery(query);
 
     return (
         <List>

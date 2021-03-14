@@ -22,7 +22,7 @@ const HomeScreenRoot = ({props}) => {
 
   React.useEffect(() => {
     if (dirty) {
-      refresh('name=_');
+      refresh(`name=${searchQuery}`);
     }
   }, [dirty]);
 
@@ -31,13 +31,16 @@ const HomeScreenRoot = ({props}) => {
     setDirty(false);
   }, [pathogens]);
 
-  const onChangeSearch = query => setSearchQuery(query);
+  const onChangeSearch = query => {
+    setSearchQuery(query);
+    setDirty(true);
+  };
 
   return (
     <SafeAreaView>
       <View style={{height: '100%'}}>
         <Searchbar
-          placeholder="Search"
+          placeholder='Search'
           onChangeText={onChangeSearch}
           value={searchQuery}
         />
@@ -65,26 +68,26 @@ const HomeScreenRoot = ({props}) => {
           keyExtractor={item => item.id}
         />
       </View>
-      <ActionButton buttonColor="rgba(231,76,60,1)">
+      <ActionButton buttonColor='rgba(231,76,60,1)'>
         <ActionButton.Item
-          buttonColor="#9b59b6"
-          title="New Pathogen"
+          buttonColor='#9b59b6'
+          title='New Pathogen'
           onPress={() => {
             navigation.navigate('Details', {edit: false});
           }}>
-          <Icon name="md-create" style={styles.actionButtonIcon} />
+          <Icon name='md-create' style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
-          buttonColor="#1abc9c"
-          title="Search by Genome"
+          buttonColor='#1abc9c'
+          title='Search by Genome'
           onPress={() => {}}>
-          <Icon name="md-search" style={styles.actionButtonIcon} />
+          <Icon name='md-search' style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
-          buttonColor="#3498db"
-          title="Refresh"
+          buttonColor='#3498db'
+          title='Refresh'
           onPress={() => setDirty(true)}>
-          <Icon name="md-refresh" style={styles.actionButtonIcon} />
+          <Icon name='md-refresh' style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
     </SafeAreaView>

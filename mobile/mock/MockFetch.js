@@ -44,9 +44,16 @@ pathogenDb.push(
 export default mockfetch = (url, params) => {
   console.log(`api: ${url} is invoked`);
   if (url.indexOf('search') != -1) {
-    return new Promise((resolve, reject) => {
-      resolve(JSON.stringify(pathogenDb));
-    });
+    let index = url.indexOf('?name');
+    if (index != -1) {
+      let value = url.substr(index + 6);
+      index = value.indexOf('&');
+      let query = value.substr(0, index);
+      return new Promise((resolve, reject) => {
+        let subset = pathogenDb.filter((item) => item.name.indexOf(query) != -1);
+        resolve(JSON.stringify(subset));
+      });
+    }
   }
   if (params == undefined || params.body == undefined) {
     let lastIndex = url.lastIndexOf('/');

@@ -12,6 +12,7 @@ const AppContextProvider = ({children}) => {
   const [currentPid, setCurrentPid] = React.useState();
   const [editMode, setEditMode] = React.useState(modeEnum.init);
   const restApi = new RestApis(MockFetch, 'https://www.example.com');
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   return (
     <Provider
@@ -23,7 +24,9 @@ const AppContextProvider = ({children}) => {
         currentPid,
         setCurrentPid,
         editMode,
-        setEditMode
+        setEditMode,
+        searchQuery,
+        setSearchQuery
       }}>
       {children}
     </Provider>

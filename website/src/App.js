@@ -17,7 +17,7 @@ import AppStore from './screens/appStore';
 
 function App() {
     const classes = useStyles();
-    const { modeEnum, setCurrentPid, setEditMode } = AppStore.useAppContext();
+    const { modeEnum, setCurrentPid, setEditMode, setSearchQuery, setDirty } = AppStore.useAppContext();
 
     return (
         <div className={classes.grow}>
@@ -44,6 +44,9 @@ function App() {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
+                            onChange = {event => {
+                                setSearchQuery(event.target.value);
+                                setDirty(true)}}
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </div>
