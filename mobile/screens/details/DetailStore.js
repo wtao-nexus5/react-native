@@ -6,7 +6,7 @@ const DetailContext = React.createContext();
 const {Provider} = DetailContext;
 
 const DetailContextProvider = ({children}) => {
-  const [pathogen, setPathogen] = React.useState({
+  const emptyPathogen = {
     name: '',
     scientificName: '',
     family: '',
@@ -14,19 +14,14 @@ const DetailContextProvider = ({children}) => {
     ClinicalSymptoms: '',
     genomeHashDigest: '',
     genomeUrl: '',
-  });
-  const [pid, setPid] = React.useState();
+  };
+  const [pathogen, setPathogen] = React.useState(emptyPathogen);
   const {restApi} = AppStore.useAppContext();
 
-  React.useEffect(() => {
-    const fetch = async () => {
-      const pathogen = await restApi.getPathogen(pid);
-      setPathogen(pathogen);
-    };
-    if (pid != undefined) {
-      fetch();
-    }
-  }, [pid]);
+  const fetchPathogen = async pid => {
+    const pathogen = await restApi.getPathogen(pid);
+    setPathogen(pathogen);
+  };
 
   const uploadFile = async (pathogen, file) => {
     let copy = {...pathogen};
@@ -101,6 +96,8 @@ const DetailContextProvider = ({children}) => {
     setPathogen(copy);
   };
 
+  const resetPathogen = () => setPathogen(emptyPathogen);
+
   const fields = [
     'ID_FIELD_NAME',
     'ID_FIELD_SCIENTIFIC_NAME',
@@ -110,6 +107,7 @@ const DetailContextProvider = ({children}) => {
     'ID_FIELD_HASH',
     'CTA'
   ];
+
   const [fieldErrors, setFieldErrors] = React.useState(
     fields.map(item => false),
   );
@@ -128,7 +126,8 @@ const DetailContextProvider = ({children}) => {
         createPathogen,
         getPathogenFieldValue,
         updatePathogenFieldValue,
-        setPid,
+        fetchPathogen,
+        resetPathogen,
         fieldErrors,
         updateFieldError,
       }}>

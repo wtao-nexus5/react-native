@@ -16,7 +16,6 @@ const DetailContextProvider = ({ children }) => {
         genomeUrl: ''
     };
     const [pathogen, setPathogen] = React.useState(emptyPathogen);
-    const [pid, setPid] = React.useState();
     const { restApi } = AppStore.useAppContext();
 
     const fetchPathogen = async (pid) => {

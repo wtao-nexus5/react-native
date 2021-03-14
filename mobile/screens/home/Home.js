@@ -2,21 +2,24 @@ import * as React from 'react';
 import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import HomeStore from './HomeStore';
 import {useNavigation} from '@react-navigation/native';
-import {
-  Searchbar,
-  Button,
-  Card,
-  Paragraph,
-} from 'react-native-paper';
+import {Searchbar, Button, Card, Paragraph} from 'react-native-paper';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AppStore from '../appStore';
 
 const HomeScreenRoot = ({props}) => {
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = React.useState('');
   const {pathogens, refresh} = HomeStore.useHomeStoreContext();
-  const {dirty, setDirty, busy} = AppStore.useAppContext();
+  const {
+    dirty,
+    setDirty,
+    busy,
+    searchQuery,
+    setSearchQuery,
+    setCurrentPid,
+    setEditMode,
+    modeEnum
+  } = AppStore.useAppContext();
 
   React.useEffect(() => {
     if (dirty) {
@@ -38,7 +41,7 @@ const HomeScreenRoot = ({props}) => {
     <SafeAreaView pointerEvents={busy ? 'none' : 'auto'}>
       <View style={{height: '100%'}}>
         <Searchbar
-          placeholder='Search'
+          placeholder="Search"
           onChangeText={onChangeSearch}
           value={searchQuery}
         />
@@ -55,7 +58,9 @@ const HomeScreenRoot = ({props}) => {
                 <Card.Actions>
                   <Button
                     onPress={() => {
-                      navigation.navigate('Details', {id: item.id, edit: true});
+                      setEditMode(modeEnum.edit);
+                      setCurrentPid(item.id);
+                      navigation.navigate('Details');
                     }}>
                     Edit
                   </Button>
@@ -66,26 +71,26 @@ const HomeScreenRoot = ({props}) => {
           keyExtractor={item => item.id}
         />
       </View>
-      <ActionButton buttonColor='rgba(231,76,60,1)'>
+      <ActionButton buttonColor="rgba(231,76,60,1)">
         <ActionButton.Item
-          buttonColor='#9b59b6'
-          title='New Pathogen'
+          buttonColor="#9b59b6"
+          title="New Pathogen"
           onPress={() => {
             navigation.navigate('Details', {edit: false});
           }}>
-          <Icon name='md-create' style={styles.actionButtonIcon} />
+          <Icon name="md-create" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
-          buttonColor='#1abc9c'
-          title='Search by Genome'
+          buttonColor="#1abc9c"
+          title="Search by Genome"
           onPress={() => {}}>
-          <Icon name='md-search' style={styles.actionButtonIcon} />
+          <Icon name="md-search" style={styles.actionButtonIcon} />
         </ActionButton.Item>
         <ActionButton.Item
-          buttonColor='#3498db'
-          title='Refresh'
+          buttonColor="#3498db"
+          title="Refresh"
           onPress={() => setDirty(true)}>
-          <Icon name='md-refresh' style={styles.actionButtonIcon} />
+          <Icon name="md-refresh" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
     </SafeAreaView>

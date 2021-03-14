@@ -13,24 +13,35 @@ const DetailScreenRoot = props => {
   const {
     fields,
     pathogen,
-    setPid,
+    fetchPathogen,
     updatePathogen,
     createPathogen,
     getPathogenFieldValue,
     updatePathogenFieldValue,
+    resetPathogen,
     fieldErrors,
     updateFieldError,
   } = DetailStore.useDetailStoreContext();
-  const {dirty, setDirty, busy, setBusy} = AppStore.useAppContext();
+  const {
+    busy,
+    modeEnum,
+    setEditMode,
+    setCurrentPid,
+    currentPid,
+    setDirty,
+    editMode,
+    setBusy,
+  } = AppStore.useAppContext();
   const {currentDictionary} = I18nStore.useI18nContext();
 
   React.useEffect(() => {
-    if (props.params.id != undefined) setPid(props.params.id);
-  }, []);
+    if (currentPid != undefined) fetchPathogen(currentPid);
+    else resetPathogen();
+  }, [currentPid]);
 
   const clickHandler = async () => {
-    setBusy(true)
-    if (props.params.edit) {
+    setBusy(true);
+    if (editMode === modeEnum.edit) {
       await updatePathogen(pathogen, uploadFile);
     } else {
       await createPathogen(pathogen, uploadFile);
@@ -55,7 +66,14 @@ const DetailScreenRoot = props => {
                   style={styles.button}
                   mode="contained"
                   onPress={clickHandler}>
-                  {props.params.edit ? 'Save' : 'Create'}
+                  {(() => {
+                    switch (editMode) {
+                      case modeEnum.create:
+                        return 'Create New';
+                      default:
+                        return 'Update';
+                    }
+                  })()}
                 </Button>
               );
             default:
