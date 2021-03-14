@@ -7,6 +7,8 @@ const {Provider} = AppContext;
 
 const AppContextProvider = ({children}) => {
   const [dirty, setDirty] = React.useState(true);
+  const [currentPid, setCurrentPid] = React.useState();
+  const [editMode, setEditMode] = React.useState('init');
   const restApi = new RestApis(MockFetch, 'https://www.example.com');
 
   return (
@@ -14,7 +16,11 @@ const AppContextProvider = ({children}) => {
       value={{
         restApi,
         dirty,
-        setDirty
+        setDirty,
+        currentPid,
+        setCurrentPid,
+        editMode,
+        setEditMode
       }}>
       {children}
     </Provider>
@@ -23,6 +29,6 @@ const AppContextProvider = ({children}) => {
 
 const useAppContext = () => {
     return React.useContext(AppContext);
-  };
+};
 
 export default {AppContextProvider, useAppContext};

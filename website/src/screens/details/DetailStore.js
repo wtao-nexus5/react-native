@@ -77,7 +77,6 @@ const DetailContextProvider = ({children}) => {
     'Family',
     'Viral Factor',
     'Clinical Symptoms',
-    'Submit',
   ];
 
   return (
