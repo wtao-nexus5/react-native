@@ -18,6 +18,8 @@ const DetailScreenRoot = (props) => {
     } = DetailStore.useDetailStoreContext();
     const {
         modeEnum,
+        setEditMode,
+        setCurrentPid,
         currentPid,
         setDirty,
         editMode,
@@ -28,28 +30,32 @@ const DetailScreenRoot = (props) => {
         else resetPathogen();
     }, [currentPid]);
 
-    const clickHandler = () => {
+    const clickHandler = async () => {
         if (editMode === modeEnum.edit) {
             updatePathogen(pathogen);
         } else {
-            createPathogen(pathogen);
+            let result = await createPathogen(pathogen);
+            setEditMode(modeEnum.edit);
+            setCurrentPid(result.id);
         }
         setDirty(true);
     };
 
     return (
         <div style={styles.root}>
-            <Typography variant='h2' noWrap style={{marginTop: 20}}>
+            <Typography variant='h2' noWrap style={{ marginTop: 20 }}>
                 {(() => {
                     switch (editMode) {
                         case modeEnum.edit:
                             return 'View and Update';
+                        case modeEnum.create:
+                            return 'New Pathogen';
                         default:
                             return 'Details';
                     }
                 })()}
             </Typography>
-            <div style={{height: 2, backgroundColor: 'lightgray'}}/>
+            <div style={{ height: 2, backgroundColor: 'lightgray' }} />
             {fields.map((field, index) => {
                 return (
                     <TextField

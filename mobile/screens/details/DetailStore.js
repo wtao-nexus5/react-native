@@ -25,12 +25,12 @@ const DetailContextProvider = ({children}) => {
     }
   }, [pid]);
 
-  const updatePathogen = async pathogen => {
-    await restApi.updatePathogen(pathogen);
+  const updatePathogen = async (pathogen) => {
+    return restApi.updatePathogen(pathogen);
   };
 
-  const createPathogen = async pathogen => {
-    await restApi.createPathogen(pathogen);
+  const createPathogen = async (pathogen) => {
+    return restApi.createPathogen(pathogen);
   };
 
   const getPathogenFieldValue = fieldIndex => {

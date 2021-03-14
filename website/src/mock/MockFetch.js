@@ -64,12 +64,18 @@ const mockfetch = (url, params) => {
     let json = JSON.parse(params.body);
     if (json.id >= 0 && json.id < pathogenDb.length) {
       pathogenDb[json.id] = json;
+      return new Promise((resolve, reject) => {
+        resolve(JSON.stringify({id: json.id}));
+      });
     }
   }
   if (params.method === 'PUT') {
     let json = JSON.parse(params.body);
     json.id = pathogenDb.length;
     pathogenDb.push(json);
+    return new Promise((resolve, reject) => {
+      resolve(JSON.stringify({id: json.id}));
+    });
   }
 
   return new Promise((resolve, reject) => {

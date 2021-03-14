@@ -49,14 +49,14 @@ function App() {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton color='inherit'>
-                            <Badge
-                                color='secondary'
-                                onClick={() => {
-                                    setEditMode(modeEnum.create);
-                                    setCurrentPid(undefined);
-                                }}
-                            >
+                        <IconButton
+                            color='inherit'
+                            onClick={() => {
+                                setEditMode(modeEnum.create);
+                                setCurrentPid(undefined);
+                            }}
+                        >
+                            <Badge color='secondary'>
                                 <AddIcon />
                             </Badge>
                         </IconButton>

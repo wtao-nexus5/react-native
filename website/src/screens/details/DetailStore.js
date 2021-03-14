@@ -22,11 +22,11 @@ const DetailContextProvider = ({ children }) => {
     };
 
     const updatePathogen = async (pathogen) => {
-        await restApi.updatePathogen(pathogen);
+        return restApi.updatePathogen(pathogen);
     };
 
     const createPathogen = async (pathogen) => {
-        await restApi.createPathogen(pathogen);
+        return restApi.createPathogen(pathogen);
     };
 
     const getPathogenFieldValue = (fieldIndex) => {

@@ -30,8 +30,8 @@ const App = () => {
       <PaperProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Details" component={DetailScreen} />
+            <Stack.Screen name='Home' component={HomeScreen} />
+            <Stack.Screen name='Details' component={DetailScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
