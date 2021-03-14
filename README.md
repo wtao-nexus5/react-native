@@ -1,6 +1,10 @@
 # React-native and React sandbox
 Frontend only. Backned mocked.
 
+## Screenshots
+<img src="./assets/ios1.png" width="120">
+<img src="./assets/ios2.png" width="120">
+
 ## Features
 | Features      | Mobile (android+ios) | Website | Notes
 | ----------- | ----------- | ----------- | ----------- |
@@ -31,6 +35,3 @@ Frontend only. Backned mocked.
 | Android      | `yarn install`<br/>`npx react-native start`    | `npx react-native run-android`     | Source code under mobile folder
 | iOS      | yarn install<br/>`npx pod-install ios` <br/> `npx react-native link react-native-vector-icons`   | `npx react-native run-ios`     | Source code under mobile folder
 
-## Screenshots
-![](./assets/ios1.png){ width: 120px; }
-![](./assets/ios2.png){ width: 120px; }
