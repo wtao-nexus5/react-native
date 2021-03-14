@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, SafeAreaView, FlatList, StyleSheet} from 'react-native';
+import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import DetailStore from './DetailStore';
 import {TextInput, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -20,7 +20,8 @@ const DetailScreenRoot = props => {
   } = DetailStore.useDetailStoreContext();
   const {
     dirty,
-    setDirty
+    setDirty,
+    busy
   } = AppStore.useAppContext();
   const {currentDictionary} = I18nStore.useI18nContext();
 
@@ -39,7 +40,7 @@ const DetailScreenRoot = props => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView pointerEvents={busy ? 'none' : 'auto'}>
       <FlatList
         style={{height: '100%'}}
         data={fields}

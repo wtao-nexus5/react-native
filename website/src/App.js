@@ -16,9 +16,10 @@ import AddIcon from '@material-ui/icons/Add';
 import AppStore from './screens/appStore';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Alert = (props) => {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
+    return <MuiAlert elevation={6} variant='filled' {...props} />;
 };
 
 function App() {
@@ -32,10 +33,11 @@ function App() {
         showError,
         setShowError,
         errorMsg,
+        busy
     } = AppStore.useAppContext();
 
     return (
-        <div className={classes.grow}>
+        <div className={classes.grow} style={{pointerEvents: busy ? 'none' : 'auto'}}>
             <AppBar position='static'>
                 <Toolbar>
                     <IconButton
@@ -91,11 +93,19 @@ function App() {
                     <DetailScreen />
                 </div>
             </div>
-            <Snackbar open={showError} autoHideDuration={6000} onClose={()=> setShowError(false)}>
-                <Alert onClose={()=> setShowError(false)} severity='error'>
+            <Snackbar
+                open={showError}
+                autoHideDuration={6000}
+                onClose={() => setShowError(false)}
+            >
+                <Alert onClose={() => setShowError(false)} severity='error'>
                     {errorMsg}
                 </Alert>
             </Snackbar>
+            <CircularProgress
+                style={{ position: 'fixed', top: '50%', left: '48%', display: busy ? 'block' : 'none' }}
+                size={80}
+            />
         </div>
     );
 }

@@ -7,17 +7,52 @@
  */
 
 import React from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
+import {StyleSheet, useColorScheme, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './screens/home/Home';
 import DetailScreen from './screens/details/Detail';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {
+  Provider as PaperProvider,
+  Snackbar,
+  ActivityIndicator,
+  Colors as PaperColor,
+} from 'react-native-paper';
 import AppStore from './screens/appStore';
 import I18nStore from './I18n/I18nStore';
 
 const Stack = createStackNavigator();
+
+const AppRoot = () => {
+  const {showError, setShowError, errorMsg, busy} = AppStore.useAppContext();
+
+  return (
+    <PaperProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Details" component={DetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <Snackbar
+        visible={showError}
+        onDismiss={() => setShowError(false)}
+        action={{
+          label: 'Dismiss',
+          onPress: () => setShowError(false),
+        }}>
+        {errorMsg}
+      </Snackbar>
+      <ActivityIndicator
+        style={{position: 'absolute', top: '50%', left: '45%'}}
+        animating={busy}
+        color={PaperColor.blue800}
+        size='large'
+      />
+    </PaperProvider>
+  );
+};
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,14 +64,7 @@ const App = () => {
   return (
     <AppStore.AppContextProvider>
       <I18nStore.I18nProvider>
-        <PaperProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Details" component={DetailScreen} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </PaperProvider>
+        <AppRoot />
       </I18nStore.I18nProvider>
     </AppStore.AppContextProvider>
   );

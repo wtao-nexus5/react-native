@@ -15,6 +15,7 @@ const AppContextProvider = ({children}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showError, setShowError] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
 
   return (
     <Provider
@@ -32,7 +33,9 @@ const AppContextProvider = ({children}) => {
         showError, 
         setShowError,
         errorMsg, 
-        setErrorMsg
+        setErrorMsg,
+        busy,
+        setBusy
       }}>
       {children}
     </Provider>

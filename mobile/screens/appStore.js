@@ -9,6 +9,7 @@ const AppContextProvider = ({children}) => {
   const [dirty, setDirty] = React.useState(true);
   const restApi = new RestApis(MockFetch, 'https://www.example.com');
   const [showError, setShowError] = React.useState(false);
+  const [busy, setBusy] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState('');
 
   return (
@@ -20,7 +21,9 @@ const AppContextProvider = ({children}) => {
         showError, 
         setShowError,
         errorMsg, 
-        setErrorMsg
+        setErrorMsg,
+        busy,
+        setBusy
       }}>
       {children}
     </Provider>

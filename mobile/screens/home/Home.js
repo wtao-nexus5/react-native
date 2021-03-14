@@ -5,11 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {
   Searchbar,
   Button,
-  IconButton,
   Card,
   Paragraph,
-  Colors,
-  Snackbar
 } from 'react-native-paper';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,7 +16,7 @@ const HomeScreenRoot = ({props}) => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = React.useState('');
   const {pathogens, refresh} = HomeStore.useHomeStoreContext();
-  const {dirty, setDirty, showError, setShowError, errorMsg} = AppStore.useAppContext();
+  const {dirty, setDirty, busy} = AppStore.useAppContext();
 
   React.useEffect(() => {
     if (dirty) {
@@ -38,7 +35,7 @@ const HomeScreenRoot = ({props}) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView pointerEvents={busy ? 'none' : 'auto'}>
       <View style={{height: '100%'}}>
         <Searchbar
           placeholder='Search'
@@ -91,15 +88,6 @@ const HomeScreenRoot = ({props}) => {
           <Icon name='md-refresh' style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
-      <Snackbar
-        visible={showError}
-        onDismiss={() => setShowError(false)}
-        action={{
-          label: 'Dismiss',
-          onPress: () => setShowError(false),
-        }}>
-        {errorMsg}
-      </Snackbar>
     </SafeAreaView>
   );
 };
