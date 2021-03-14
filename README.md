@@ -32,5 +32,5 @@ Frontend only. Backned mocked.
 | iOS      | yarn install<br/>`npx pod-install ios` <br/> `npx react-native link react-native-vector-icons`   | `npx react-native run-ios`     | Source code under mobile folder
 
 ## Screenshots
-![](./assets/ios1.png)
-![](./assets/ios2.png)
+![](./assets/ios1.png){ width: 120px; }
+![](./assets/ios2.png){ width: 120px; }
