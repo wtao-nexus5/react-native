@@ -25,11 +25,11 @@ const DetailContextProvider = ({children}) => {
     }
   }, [pid]);
 
-  const updatePathogen = async (pathogen) => {
+  const updatePathogen = async pathogen => {
     return restApi.updatePathogen(pathogen);
   };
 
-  const createPathogen = async (pathogen) => {
+  const createPathogen = async pathogen => {
     return restApi.createPathogen(pathogen);
   };
 
@@ -78,6 +78,14 @@ const DetailContextProvider = ({children}) => {
     'ID_FIELD_VIRAL_FACTOR',
     'ID_FIELD_SYMPTOMS',
   ];
+  const [fieldErrors, setFieldErrors] = React.useState(
+    fields.map(item => false),
+  );
+  const updateFieldError = (fieldIndex, error) => {
+    let copy = [...fieldErrors];
+    copy[fieldIndex] = error;
+    setFieldErrors(copy);
+  };
 
   return (
     <Provider
@@ -89,6 +97,8 @@ const DetailContextProvider = ({children}) => {
         getPathogenFieldValue,
         updatePathogenFieldValue,
         setPid,
+        fieldErrors,
+        updateFieldError,
       }}>
       {children}
     </Provider>

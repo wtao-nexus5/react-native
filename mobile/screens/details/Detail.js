@@ -5,6 +5,7 @@ import {TextInput, Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import AppStore from '../appStore';
 import I18nStore from '../../I18n/I18nStore';
+import validateError from './DetailFieldValidator';
 
 const DetailScreenRoot = props => {
   const navigation = useNavigation();
@@ -16,13 +17,11 @@ const DetailScreenRoot = props => {
     updatePathogen,
     createPathogen,
     getPathogenFieldValue,
-    updatePathogenFieldValue
+    updatePathogenFieldValue,
+    fieldErrors,
+    updateFieldError,
   } = DetailStore.useDetailStoreContext();
-  const {
-    dirty,
-    setDirty,
-    busy
-  } = AppStore.useAppContext();
+  const {dirty, setDirty, busy} = AppStore.useAppContext();
   const {currentDictionary} = I18nStore.useI18nContext();
 
   React.useEffect(() => {
@@ -63,7 +62,15 @@ const DetailScreenRoot = props => {
                   multiline={index == 4 ? true : false}
                   label={currentDictionary[item]}
                   value={getPathogenFieldValue(index)}
-                  onChangeText={text => updatePathogenFieldValue(index, text)}
+                  onChangeText={text => {
+                    updatePathogenFieldValue(index, text);
+                    let error = validateError(
+                      currentDictionary[item],
+                      text
+                  );
+                  updateFieldError(index, error);
+                  }}
+                  error={fieldErrors[index]}
                 />
               );
           }

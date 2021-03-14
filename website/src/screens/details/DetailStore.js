@@ -77,6 +77,13 @@ const DetailContextProvider = ({ children }) => {
         'ID_FIELD_SYMPTOMS',
     ];
 
+    const [fieldErrors, setFieldErrors] = React.useState(fields.map(item => false));
+    const updateFieldError = (fieldIndex, error) => {
+        let copy = [...fieldErrors];
+        copy[fieldIndex] = error;
+        setFieldErrors(copy);
+    };
+
     return (
         <Provider
             value={{
@@ -88,6 +95,8 @@ const DetailContextProvider = ({ children }) => {
                 updatePathogenFieldValue,
                 fetchPathogen,
                 resetPathogen,
+                fieldErrors,
+                updateFieldError
             }}
         >
             {children}

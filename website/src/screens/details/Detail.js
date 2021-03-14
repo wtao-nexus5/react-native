@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import I18nStore from '../../I18n/I18nStore';
+import validateError from './DetailFieldValidator';
 
 const DetailScreenRoot = (props) => {
     const {
@@ -16,6 +17,8 @@ const DetailScreenRoot = (props) => {
         getPathogenFieldValue,
         updatePathogenFieldValue,
         resetPathogen,
+        fieldErrors,
+        updateFieldError
     } = DetailStore.useDetailStoreContext();
     const {
         modeEnum,
@@ -25,7 +28,7 @@ const DetailScreenRoot = (props) => {
         setDirty,
         editMode,
     } = AppStore.useAppContext();
-    const {currentDictionary} = I18nStore.useI18nContext();
+    const { currentDictionary } = I18nStore.useI18nContext();
 
     React.useEffect(() => {
         if (currentPid != undefined) fetchPathogen(currentPid);
@@ -68,9 +71,15 @@ const DetailScreenRoot = (props) => {
                         rows={index == 4 ? 8 : 1}
                         label={currentDictionary[field]}
                         value={getPathogenFieldValue(index)}
-                        onChange={(event) =>
-                            updatePathogenFieldValue(index, event.target.value)
-                        }
+                        onChange={(event) => {
+                            updatePathogenFieldValue(index, event.target.value);
+                            let error = validateError(
+                                currentDictionary[field],
+                                event.target.value
+                            );
+                            updateFieldError(index, error);
+                        }}
+                        error={fieldErrors[index]}
                         disabled={editMode === modeEnum.init ? true : false}
                     />
                 );
