@@ -1,5 +1,9 @@
 # React-native and React sandbox
-Frontend only. Backned mocked.
+Frontend only. Backend mocked.
+
+Implemented a pathogen libray app for both mobile and website using react. 
+
+Points of consideration are desribed in the [Features](#features) section
 
 ## Screenshots
 <div style="display: flex; flex-direction: row;">
