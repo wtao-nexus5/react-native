@@ -24,4 +24,13 @@ Frontend only. Backned mocked.
 | Analytics, A/B testing   | ❌      |  ❌      | Architecture item<br />TODO: <br />Intgretion with Google Analytics or Firebase.
 | CI   | ❌      |  ❌      | TODO: <br />1. Integration with SonarQube <br /> 2. Integration with Fastlane for app automation <br/> 3. Integration BrowserStack for end-2-end test
 
-## How to build
+## Build and Run
+| app      | build | run | note
+| ----------- | ----------- | ----------- | ----------- |
+| Website      | `yarn install`    | `yarn run`     | Source code under website folder
+| Android      | `yarn install`<br/>`npx react-native start`    | `npx react-native run-android`     | Source code under mobile folder
+| iOS      | yarn install<br/>`npx pod-install ios` <br/> `npx react-native link react-native-vector-icons`   | `npx react-native run-ios`     | Source code under mobile folder
+
+## Screenshots
+![](./assets/ios1.png)
+![](./assets/ios2.png)
