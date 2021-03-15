@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import HomeScreen from './screens/home/Home';
 import DetailScreen from './screens/details/Detail';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -13,6 +14,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import AppStore from './screens/appStore';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -20,6 +22,24 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant='filled' {...props} />;
+};
+
+const MobileRoot = () => {
+    return <HomeScreen />;
+};
+
+const DesktopRoot = () => {
+    return (
+        <div style={styles.root}>
+            <div style={{ width: '40%' }}>
+                <HomeScreen />
+            </div>
+            <div style={{ width: '3px', backgroundColor: 'lightgray' }} />
+            <div style={{ width: '60%' }}>
+                <DetailScreen />
+            </div>
+        </div>
+    );
 };
 
 function App() {
@@ -33,11 +53,51 @@ function App() {
         showError,
         setShowError,
         errorMsg,
-        busy
+        busy,
     } = AppStore.useAppContext();
 
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const handleMobileMenuClose = () => {
+        setMobileMoreAnchorEl(null);
+    };
+    const handleMobileMenuOpen = (event) => {
+        setMobileMoreAnchorEl(event.currentTarget);
+    };
+    const mobileMenuId = 'primary-search-account-menu-mobile';
+    const renderMobileMenu = (
+        <Menu
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={mobileMenuId}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
+        >
+            <MenuItem>
+                <IconButton color='secondary'>
+                    <Badge color='secondary'>
+                        <AddIcon />
+                    </Badge>
+                </IconButton>
+                <p
+                    onClick={() => {
+                        setEditMode(modeEnum.create);
+                        setCurrentPid(undefined);
+                    }}
+                >
+                    New Pathogen
+                </p>
+            </MenuItem>
+        </Menu>
+    );
+
     return (
-        <div className={classes.grow} style={{pointerEvents: busy ? 'none' : 'auto'}}>
+        <div
+            className={classes.grow}
+            style={{ pointerEvents: busy ? 'none' : 'auto' }}
+        >
             <AppBar position='static'>
                 <Toolbar>
                     <IconButton
@@ -71,7 +131,7 @@ function App() {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton
-                            color='inherit'
+                            color='secondary'
                             onClick={() => {
                                 setEditMode(modeEnum.create);
                                 setCurrentPid(undefined);
@@ -82,17 +142,21 @@ function App() {
                             </Badge>
                         </IconButton>
                     </div>
+                    <div className={classes.sectionMobile}>
+                        <IconButton
+                            aria-label='show more'
+                            aria-controls={mobileMenuId}
+                            aria-haspopup='true'
+                            onClick={handleMobileMenuOpen}
+                            color='inherit'
+                        >
+                            <MoreIcon />
+                        </IconButton>
+                    </div>
                 </Toolbar>
             </AppBar>
-            <div style={styles.root}>
-                <div style={{ width: '40%' }}>
-                    <HomeScreen />
-                </div>
-                <div style={{ width: '3px', backgroundColor: 'lightgray' }} />
-                <div style={{ width: '60%' }}>
-                    <DetailScreen />
-                </div>
-            </div>
+            {renderMobileMenu}
+            <DesktopRoot />
             <Snackbar
                 open={showError}
                 autoHideDuration={6000}
@@ -103,7 +167,12 @@ function App() {
                 </Alert>
             </Snackbar>
             <CircularProgress
-                style={{ position: 'fixed', top: '50%', left: '48%', display: busy ? 'block' : 'none' }}
+                style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '48%',
+                    display: busy ? 'block' : 'none',
+                }}
                 size={80}
             />
         </div>
