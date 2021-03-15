@@ -23,7 +23,7 @@ Implemented a pathogen libray app for both mobile and website using react.
 | Search result pagination   | ❌      |  ❌      | TODO: <br />page number placeholder http parameter has been added 
 | Add tag   | ❌      |  ❌      |
 | Upload gnome file   | ❌      |  ✅      | MD5 hash is generated
-| Responsive UI   | ✅      |  ✅      | For mobile tablet device: <br/>Rotate tablet to landscape mode to see the change
+| Responsive UI   | ✅      |  ✅      | For mobile tablet device: <br/>Rotate tablet to landscape mode to see the change <br/><br/>For web app: Change browser size to see the change
 | Deeplink   | ❌      |  ❌      |
 | Material UI design language      | ✅       | ✅       | Architecture item
 | Input field validation      | ✅       | ✅       | Architecture item<br /> Keywords:<br /> `updateFieldError`, `DetailFieldValidator.js`
