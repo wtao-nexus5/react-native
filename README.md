@@ -41,5 +41,5 @@ Implemented a pathogen libray app for both mobile and website using react.
 | app      | build | run | note
 | ----------- | ----------- | ----------- | ----------- |
 | Website      | `yarn install`    | `yarn run`     | Source code under website folder
-| iOS      | yarn install<br/>`npx pod-install ios` <br/> `npx react-native link react-native-vector-icons`   | `npx react-native run-ios`     | Source code under mobile folder
+| iOS      | yarn install<br/>`npx pod-install ios` <br/> `npx react-native link react-native-vector-icons`<br/>`npx react-native link react-native-device-info`   | `npx react-native run-ios`     | Source code under mobile folder
 | Android      | `yarn install`<br/>`npx react-native start`    | `npx react-native run-android`     | Source code under mobile folder

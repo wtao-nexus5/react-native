@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, useColorScheme, View} from 'react-native';
+import {StyleSheet, useColorScheme, View, Dimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './screens/home/Home';
@@ -21,20 +21,55 @@ import {
 } from 'react-native-paper';
 import AppStore from './screens/appStore';
 import I18nStore from './I18n/I18nStore';
+import DeviceInfo from 'react-native-device-info';
 
 const Stack = createStackNavigator();
 
+const PortraitRoot = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Home' component={HomeScreen} />
+        <Stack.Screen name='Details' component={DetailScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const TabletLandscapeRoot = () => {
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <View style={{width: '40%'}}>
+        <HomeScreen />
+      </View>
+      <View style={{width: 2, backgroundColor: 'lightgray'}}/>
+      <View style={{width: '60%'}}>
+        <DetailScreen />
+      </View>
+    </View>
+  );
+};
+
 const AppRoot = () => {
-  const {showError, setShowError, errorMsg, busy} = AppStore.useAppContext();
+  const {
+    showError,
+    setShowError,
+    errorMsg,
+    busy,
+    landscape,
+    setLandscape,
+    setDirty,
+  } = AppStore.useAppContext();
+
+  Dimensions.addEventListener('change', ({window: {width, height}}) => {
+    if (DeviceInfo.isTablet()) setLandscape(width > height);
+    else setLandscape(false);
+    setDirty(true);
+  });
 
   return (
     <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Details" component={DetailScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      {landscape ? <TabletLandscapeRoot /> : <PortraitRoot />}
       <Snackbar
         visible={showError}
         onDismiss={() => setShowError(false)}
