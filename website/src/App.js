@@ -19,13 +19,34 @@ import AppStore from './screens/appStore';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    useHistory,
+} from 'react-router-dom';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+
+var useMediaQueryCounter = 0;
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant='filled' {...props} />;
 };
 
 const MobileRoot = () => {
-    return <HomeScreen />;
+    return (
+        <div>
+            <Switch>
+                <Route exact path='/'>
+                    <HomeScreen />
+                </Route>
+                <Route exact path='/detail'>
+                    <DetailScreen />
+                </Route>
+            </Switch>
+        </div>
+    );
 };
 
 const DesktopRoot = () => {
@@ -54,6 +75,8 @@ function App() {
         setShowError,
         errorMsg,
         busy,
+        mobileView,
+        setMobileView,
     } = AppStore.useAppContext();
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -85,6 +108,9 @@ function App() {
                     onClick={() => {
                         setEditMode(modeEnum.create);
                         setCurrentPid(undefined);
+                        if (mobileView) {
+                            history.push('/detail');
+                        }
                     }}
                 >
                     New Pathogen
@@ -92,6 +118,22 @@ function App() {
             </MenuItem>
         </Menu>
     );
+    const history = useHistory();
+
+    const theme = useTheme();
+    let matches = useMediaQuery(theme.breakpoints.up('md'));
+    useMediaQueryCounter++;
+    if (useMediaQueryCounter == 2) {
+        matches = !matches; //fix a material react bug
+    }
+    if (useMediaQueryCounter >= 2) {
+        let isMobile = !matches;
+        console.log(`is mobile view = ${isMobile}`);
+        if (mobileView != isMobile) {
+            setMobileView(isMobile);
+            setDirty(true);
+        }
+    }
 
     return (
         <div
@@ -135,6 +177,9 @@ function App() {
                             onClick={() => {
                                 setEditMode(modeEnum.create);
                                 setCurrentPid(undefined);
+                                if (mobileView) {
+                                    history.push('/detail');
+                                }
                             }}
                         >
                             <Badge color='secondary'>
@@ -156,7 +201,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            <DesktopRoot />
+            {mobileView ? <MobileRoot /> : <DesktopRoot />}
             <Snackbar
                 open={showError}
                 autoHideDuration={6000}

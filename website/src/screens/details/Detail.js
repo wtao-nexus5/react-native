@@ -6,8 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import I18nStore from '../../I18n/I18nStore';
 import validateError from './DetailFieldValidator';
+import { useHistory } from 'react-router-dom';
 
 const DetailScreenRoot = (props) => {
+    const history = useHistory();
     const {
         fields,
         pathogen,
@@ -27,7 +29,8 @@ const DetailScreenRoot = (props) => {
         currentPid,
         setDirty,
         editMode,
-        setBusy
+        setBusy,
+        mobileView
     } = AppStore.useAppContext();
     const { currentDictionary } = I18nStore.useI18nContext();
 
@@ -107,6 +110,21 @@ const DetailScreenRoot = (props) => {
                         }
                     })()}
                 </Button>
+                {mobileView ? (
+                    <Button
+                        style={{marginLeft: 20}}
+                        size='large'
+                        variant='contained'
+                        color='primary'
+                        onClick={() => {
+                            history.goBack();
+                            setDirty(true);
+                        }}
+                        disabled={editMode === modeEnum.init ? true : false}
+                    >
+                        Back
+                    </Button>
+                ) : null}
             </div>
         </div>
     );

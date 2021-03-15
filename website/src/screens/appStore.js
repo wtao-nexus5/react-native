@@ -16,6 +16,7 @@ const AppContextProvider = ({children}) => {
   const [showError, setShowError] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState('');
   const [busy, setBusy] = React.useState(false);
+  const [mobileView, setMobileView] = React.useState(false);
 
   return (
     <Provider
@@ -35,7 +36,9 @@ const AppContextProvider = ({children}) => {
         errorMsg, 
         setErrorMsg,
         busy,
-        setBusy
+        setBusy,
+        mobileView,
+        setMobileView
       }}>
       {children}
     </Provider>

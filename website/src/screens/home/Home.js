@@ -8,8 +8,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
 
 const HomeScreenRoot = ({ props }) => {
+    const history = useHistory();
     const { pathogens, refresh } = HomeStore.useHomeStoreContext();
     const {
         searchQuery,
@@ -17,7 +19,8 @@ const HomeScreenRoot = ({ props }) => {
         dirty,
         setDirty,
         setCurrentPid,
-        setEditMode
+        setEditMode,
+        mobileView
     } = AppStore.useAppContext();
 
     React.useEffect(() => {
@@ -56,6 +59,9 @@ const HomeScreenRoot = ({ props }) => {
                             onClick={() => {
                                 setEditMode(modeEnum.edit);
                                 setCurrentPid(index);
+                                if (mobileView) {
+                                    history.push('/detail');
+                                }
                             }}
                         >
                             Edit
