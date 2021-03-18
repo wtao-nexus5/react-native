@@ -1,12 +1,14 @@
 import * as React from 'react';
 import AppStore from '../appStore';
 import CryptoJS from 'crypto-js';
+import validateError from './DetailFieldValidator';
 
 const DetailContext = React.createContext();
 const {Provider} = DetailContext;
 
 const DetailContextProvider = ({children}) => {
-  const emptyPathogen = {
+  const [pathogen, setPathogen] = React.useState({
+    id: '',
     name: '',
     scientificName: '',
     family: '',
@@ -14,13 +16,19 @@ const DetailContextProvider = ({children}) => {
     ClinicalSymptoms: '',
     genomeHashDigest: '',
     genomeUrl: '',
-  };
-  const [pathogen, setPathogen] = React.useState(emptyPathogen);
-  const {restApi} = AppStore.useAppContext();
+  });
+  const {
+    restApi, 
+    pathogens,
+    safeApiCall,
+    setPathogens
+  } = AppStore.useAppContext();
 
-  const fetchPathogen = async pid => {
-    const pathogen = await restApi.getPathogen(pid);
-    setPathogen(pathogen);
+  const fetchPathogen = pid => {
+    safeApiCall( async() => {
+      const pathogen = await restApi.getPathogen(pid);
+      setPathogen(pathogen);
+    });
   };
 
   const uploadFile = async (pathogen, file) => {
@@ -44,57 +52,35 @@ const DetailContextProvider = ({children}) => {
     });
   };
 
-  const updatePathogen = async (pathogen, gnomeFile) => {
-    let copy = await uploadFile(pathogen, gnomeFile);
-    setPathogen(copy);
-    return restApi.updatePathogen(copy);
+  const updatePathogen = (pathogen, gnomeFile) => {
+    safeApiCall( async() => {
+      let copy = await uploadFile(pathogen, gnomeFile);
+      await restApi.updatePathogen(copy);
+      setPathogens(pathogens.map( item => {
+        if (item.id == pathogen.id) {
+          return copy;
+        }
+        return item;
+      }));
+    });
   };
 
   const createPathogen = async (pathogen, gnomeFile) => {
-    let copy = await uploadFile(pathogen, gnomeFile);
-    setPathogen(copy);
-    return restApi.createPathogen(copy);
+    return new Promise(resolve => {
+      safeApiCall( async() => {
+        let copy = await uploadFile(pathogen, gnomeFile);
+        copy = await restApi.createPathogen(copy);
+        setPathogen(copy);
+        setPathogens([...pathogens, copy]);
+        resolve(copy);
+      });
+    });  
   };
 
   const getPathogenFieldValue = fieldIndex => {
-    switch (fieldIndex) {
-      case 0:
-        return pathogen.name;
-      case 1:
-        return pathogen.scientificName;
-      case 2:
-        return pathogen.family;
-      case 3:
-        return pathogen.viralFactor;
-      case 4:
-        return pathogen.ClinicalSymptoms;
-      case 5:
-        return pathogen.genomeHashDigest;
-    }
-    return '';
-  };
-
-  const updatePathogenFieldValue = (fieldIndex, value) => {
-    let copy = {...pathogen};
-    switch (fieldIndex) {
-      case 0:
-        copy.name = value;
-        break;
-      case 1:
-        copy.scientificName = value;
-        break;
-      case 2:
-        copy.family = value;
-        break;
-      case 3:
-        copy.viralFactor = value;
-        break;
-      case 4:
-        copy.ClinicalSymptoms = value;
-        break;
-    }
-    setPathogen(copy);
-  };
+    var keys = Object.keys(pathogen);
+    return pathogen[keys[fieldIndex + 1]];
+  }
 
   const resetPathogen = () => setPathogen(emptyPathogen);
 
@@ -105,31 +91,34 @@ const DetailContextProvider = ({children}) => {
     'ID_FIELD_VIRAL_FACTOR',
     'ID_FIELD_SYMPTOMS',
     'ID_FIELD_HASH',
-    'CTA'
+    'CTA',
   ];
 
-  const [fieldErrors, setFieldErrors] = React.useState(
-    fields.map(item => false),
-  );
-  const updateFieldError = (fieldIndex, error) => {
+  const [fieldErrors, setFieldErrors] = React.useState(fields.map(_ => false));
+
+  const onUpdateField = (fieldIndex, text) => {
+    let error = validateError(fields[fieldIndex], text);
     let copy = [...fieldErrors];
     copy[fieldIndex] = error;
     setFieldErrors(copy);
+
+    copy = {...pathogen};
+    var keys = Object.keys(copy);
+    copy[keys[fieldIndex + 1]] = text;
+    setPathogen(copy);
   };
 
   return (
     <Provider
       value={{
         fields,
+        fieldErrors,
         pathogen,
+        fetchPathogen,
+        onUpdateField,
         updatePathogen,
         createPathogen,
         getPathogenFieldValue,
-        updatePathogenFieldValue,
-        fetchPathogen,
-        resetPathogen,
-        fieldErrors,
-        updateFieldError,
       }}>
       {children}
     </Provider>

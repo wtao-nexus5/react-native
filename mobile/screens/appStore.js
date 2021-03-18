@@ -8,12 +8,11 @@ const {Provider} = AppContext;
 
 const AppContextProvider = ({children}) => {
   const modeEnum = {init: 1, edit: 2, create: 3};
+  const restApi = new RestApis(MockFetch, 'https://www.example.com');
 
-  const [dirty, setDirty] = React.useState(true);
+  const [pathogens, setPathogens] = React.useState([]);
   const [currentPid, setCurrentPid] = React.useState();
   const [editMode, setEditMode] = React.useState(modeEnum.init);
-  const restApi = new RestApis(MockFetch, 'https://www.example.com');
-  const [searchQuery, setSearchQuery] = React.useState('');
   const [showError, setShowError] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState('');
   const [busy, setBusy] = React.useState(false);
@@ -21,19 +20,34 @@ const AppContextProvider = ({children}) => {
     DeviceInfo.isLandscapeSync() && DeviceInfo.isTablet(),
   );
 
+  const safeApiCall = async (func) => {
+    setBusy(true);
+    try {
+      await func();
+    } catch (error) {
+      setShowError(true);
+      setErrorMsg(error);
+    }
+    setBusy(false);
+  } 
+
+  const fetchPathogens = (query) => {
+    safeApiCall(async ()=> {
+      setPathogens(await restApi.getPathogens(query, 0));
+    })
+  };
+
   return (
     <Provider
       value={{
+        pathogens,
+        setPathogens,
+        fetchPathogens,
         modeEnum,
-        restApi,
-        dirty,
-        setDirty,
         currentPid,
         setCurrentPid,
         editMode,
         setEditMode,
-        searchQuery,
-        setSearchQuery,
         showError,
         setShowError,
         errorMsg,
@@ -42,6 +56,8 @@ const AppContextProvider = ({children}) => {
         setBusy,
         landscape,
         setLandscape,
+        restApi,
+        safeApiCall
       }}>
       {children}
     </Provider>

@@ -5,7 +5,6 @@ import {TextInput, Button, Title} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import AppStore from '../appStore';
 import I18nStore from '../../I18n/I18nStore';
-import validateError from './DetailFieldValidator';
 
 const DetailScreenRoot = props => {
   const {
@@ -15,10 +14,8 @@ const DetailScreenRoot = props => {
     updatePathogen,
     createPathogen,
     getPathogenFieldValue,
-    updatePathogenFieldValue,
-    resetPathogen,
+    onUpdateField,
     fieldErrors,
-    updateFieldError,
   } = DetailStore.useDetailStoreContext();
   const {
     busy,
@@ -26,9 +23,7 @@ const DetailScreenRoot = props => {
     setEditMode,
     setCurrentPid,
     currentPid,
-    setDirty,
     editMode,
-    setBusy,
     landscape,
   } = AppStore.useAppContext();
   const {currentDictionary} = I18nStore.useI18nContext();
@@ -36,14 +31,14 @@ const DetailScreenRoot = props => {
   const navigation = landscape ? undefined : useNavigation();
 
   React.useEffect(() => {
-    if (currentPid != undefined) fetchPathogen(currentPid);
-    else resetPathogen();
+    if (currentPid != undefined) {
+      fetchPathogen(currentPid);
+    }
   }, [currentPid]);
 
   const clickHandler = async () => {
-    setBusy(true);
     if (editMode === modeEnum.edit) {
-      await updatePathogen(pathogen, uploadFile);
+      updatePathogen(pathogen, uploadFile);
     } else {
       let result = await createPathogen(pathogen, uploadFile);
       if (navigation) {
@@ -53,8 +48,6 @@ const DetailScreenRoot = props => {
         setCurrentPid(result.id);
       }
     }
-    setDirty(true);
-    setBusy(false);
   };
 
   const [uploadFile, setUploadFile] = React.useState();
@@ -103,11 +96,7 @@ const DetailScreenRoot = props => {
                   multiline={index == 4 ? true : false}
                   label={currentDictionary[item]}
                   value={getPathogenFieldValue(index)}
-                  onChangeText={text => {
-                    updatePathogenFieldValue(index, text);
-                    let error = validateError(currentDictionary[item], text);
-                    updateFieldError(index, error);
-                  }}
+                  onChangeText={text => onUpdateField(index, text)}
                   disabled={editMode === modeEnum.init ? true : (index === 5 ? true : false)}
                   error={fieldErrors[index]}
                 />

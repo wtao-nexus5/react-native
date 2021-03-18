@@ -53,56 +53,44 @@ export default mockfetch = (url, params) => {
     });
   }
 
-  if (url.indexOf('search') != -1) {
-    let index = url.indexOf('?name');
-    if (index != -1) {
-      let value = url.substr(index + 6);
-      index = value.indexOf('&');
-      let query = value.substr(0, index);
-      return new Promise((resolve, reject) => {
-        let subset = pathogenDb.filter(item => item.name.indexOf(query) != -1);
-        resolve(JSON.stringify(subset));
-      });
-    }
-  }
-  if (params == undefined || params.body == undefined) {
-    let lastIndex = url.lastIndexOf('/');
-    if (lastIndex != -1) {
-      let idStr = url.substr(lastIndex + 1);
-      let id = parseInt(idStr);
-      if (id < pathogenDb.length) {
-        return new Promise((resolve, reject) => {
-          resolve(JSON.stringify(pathogenDb[id]));
-        });
-      }
-    }
-  }
-  if (params.method == 'POST' && url.indexOf('pathogens') != -1) {
-    let json = JSON.parse(params.body);
-    if (json.id >= 0 && json.id < pathogenDb.length) {
-      pathogenDb[json.id] = json;
-      return new Promise((resolve, reject) => {
-        resolve(JSON.stringify({id: json.id}));
-      });
-    }
-  }
-  if (params.method == 'PUT') {
-    let json = JSON.parse(params.body);
-    json.id = pathogenDb.length;
-    pathogenDb.push(json);
-    return new Promise((resolve, reject) => {
-      resolve(JSON.stringify({id: json.id}));
-    });
-  }
-  if (url.indexOf('upload') !== -1) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve();
-        }, 1500);
-    });
-}
-
   return new Promise((resolve, reject) => {
-    reject();
+    setTimeout(() => {
+      if (url.indexOf('search') != -1) {
+        let index = url.indexOf('?name');
+        if (index != -1) {
+          let value = url.substr(index + 6);
+          index = value.indexOf('&');
+          let query = value.substr(0, index);
+          let subset = pathogenDb.filter(
+            item => item.name.indexOf(query) != -1,
+          );
+          resolve(JSON.stringify(subset));
+        }
+      } else if (params == undefined || params.body == undefined) {
+        let lastIndex = url.lastIndexOf('/');
+        if (lastIndex != -1) {
+          let idStr = url.substr(lastIndex + 1);
+          let id = parseInt(idStr);
+          if (id < pathogenDb.length) {
+            resolve(JSON.stringify(pathogenDb[id]));
+          }
+        }
+      } else if (params.method == 'POST' && url.indexOf('pathogens') != -1) {
+        let json = JSON.parse(params.body);
+        if (json.id >= 0 && json.id < pathogenDb.length) {
+          pathogenDb[json.id] = json;
+          resolve(JSON.stringify(pathogenDb[json.id]));
+        }
+      } else if (params.method == 'PUT') {
+        let json = JSON.parse(params.body);
+        json.id = pathogenDb.length;
+        pathogenDb.push(json);
+        resolve(JSON.stringify(pathogenDb[pathogenDb.length - 1]));
+      } else if (url.indexOf('upload') !== -1) {
+        resolve();
+      } else {
+        reject();
+      }
+    }, 1000);
   });
 };

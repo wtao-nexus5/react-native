@@ -5,24 +5,16 @@ const HomeContext = React.createContext();
 const {Provider} = HomeContext;
 
 const HomeContextProvider = ({children}) => {
-  const [pathogens, setPathogens] = React.useState([]);
-  const {restApi, setShowError, setErrorMsg} = AppStore.useAppContext();
-
-  const refresh = async (query) => {
-    try {
-      const pathogens = await restApi.getPathogens(query, 0);
-      setPathogens(pathogens);
-    } catch (error) {
-      setShowError(true);
-      setErrorMsg(error);
-    }
-  };
+  const [dirty, setDirty] = React.useState(true);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   return (
     <Provider
       value={{
-        pathogens,
-        refresh
+        searchQuery,
+        setSearchQuery,
+        dirty,
+        setDirty
       }}>
       {children}
     </Provider>
