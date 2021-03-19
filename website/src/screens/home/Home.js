@@ -1,6 +1,4 @@
 import * as React from 'react';
-import HomeStore from './HomeStore';
-import AppStore from '../appStore';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Card from '@material-ui/core/Card';
@@ -9,30 +7,28 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {useHistory} from 'react-router-dom';
+import {HomeStore, AppStore} from 'common-lib';
 
 const HomeScreenRoot = ({props}) => {
   const history = useHistory();
-  const {pathogens, refresh} = HomeStore.useHomeStoreContext();
+  const {fetchPathogens} = HomeStore.useHomeStoreContext();
   const {
     searchQuery,
+    pathogens,
     modeEnum,
     dirty,
     setDirty,
     setCurrentPid,
     setEditMode,
-    mobileView,
+    landscape,
   } = AppStore.useAppContext();
 
   React.useEffect(() => {
     if (dirty) {
-      refresh(`name=${searchQuery}`);
+      fetchPathogens(`name=${searchQuery}`);
+      setDirty(false);
     }
-  }, [dirty]);
-
-  React.useEffect(() => {
-    console.log(pathogens);
-    setDirty(false);
-  }, [pathogens]);
+  }, [searchQuery, dirty]);
 
   return (
     <List>
@@ -57,8 +53,8 @@ const HomeScreenRoot = ({props}) => {
               color="primary"
               onClick={() => {
                 setEditMode(modeEnum.edit);
-                setCurrentPid(index);
-                if (mobileView) {
+                setCurrentPid(item.id);
+                if (!landscape) {
                   history.push('/detail');
                 }
               }}>

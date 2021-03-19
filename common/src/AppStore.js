@@ -16,6 +16,8 @@ const AppContextProvider = ({children}) => {
   const [errorMsg, setErrorMsg] = React.useState('');
   const [busy, setBusy] = React.useState(false);
   const [landscape, setLandscape] = React.useState(false);
+  const [dirty, setDirty] = React.useState(true);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const safeApiCall = async (func) => {
     setBusy(true);
@@ -26,20 +28,13 @@ const AppContextProvider = ({children}) => {
       setErrorMsg(error);
     }
     setBusy(false);
-  } 
-
-  const fetchPathogens = (query) => {
-    safeApiCall(async ()=> {
-      setPathogens(await restApi.getPathogens(query, 0));
-    })
-  };
+  }
 
   return (
     <Provider
       value={{
         pathogens,
         setPathogens,
-        fetchPathogens,
         modeEnum,
         currentPid,
         setCurrentPid,
@@ -54,7 +49,11 @@ const AppContextProvider = ({children}) => {
         landscape,
         setLandscape,
         restApi,
-        safeApiCall
+        safeApiCall,
+        searchQuery,
+        setSearchQuery,
+        dirty,
+        setDirty
       }}>
       {children}
     </Provider>

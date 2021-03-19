@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AppStore from './screens/appStore';
-import I18nStore from './I18n/I18nStore';
+import {AppStore, I18nStore} from 'common-lib';
 import { BrowserRouter as Router} from 'react-router-dom';
 
 ReactDOM.render(

@@ -8,19 +8,19 @@ import {HomeStore, AppStore} from 'common-lib';
 
 const HomeScreenRoot = () => {
   const {
-    dirty,
-    setDirty,
-    searchQuery,
-    setSearchQuery,
+    fetchPathogens
   } = HomeStore.useHomeStoreContext();
   const {
     busy,
     pathogens,
-    fetchPathogens,
     setCurrentPid,
     setEditMode,
     modeEnum,
     landscape,
+    dirty,
+    setDirty,
+    searchQuery,
+    setSearchQuery,
   } = AppStore.useAppContext();
   const navigation = landscape ? undefined : useNavigation();
 

@@ -30,7 +30,7 @@ Implemented a pathogen libray app for both mobile and website using react.
 | Internationalization      | ✅       | ✅       | Architecture item<br /> Keywords:<br /> `<I18nStore.I18nProvider>`, `currentDictionary`
 | Unified error handling      | ✅       | ✅       | Architecture item<br /> Keywords: <br />`<Snackbar>`, `[showError, setShowError]`, `[errorMsg, setErrorMsg]`
 | Unified progress indicator      | ✅       | ✅       | Architecture item<br /> Keywords: <br />`[busy, setBusy]`, `pointerEvents`
-| Share code between react native and react apps      | ❌      | ❌      | Architecture item<br /> TODO: <br />1. Create a common folder  outside app folders<br/> 2. Use `ln` to link the common folder under `node_modules`
+| Share code between react native and react apps      | ✅      | ✅      | Architecture item<br /> Created common library <br/>Keywords: `common-lib`
 | Local cache      | ❌      | ❌      | Architecture item<br /> TODO: <br />Need to work with backend to take advatange of HTTP code 304 for cache management
 | Runtime exception report      | ❌      | ❌      | Architecture item<br /> TODO: <br />Integration solutions such as sentry.io or logRocket.com
 | Unit test   | ❌      |  ❌      | Architecture item<br />TODO: <br />1. Aiming  to launch each UI screen independently.<br /> 2. Test driven developmnent <br /> 3. Produce test coverage report.

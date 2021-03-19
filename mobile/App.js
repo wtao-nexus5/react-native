@@ -64,9 +64,8 @@ const AppRoot = () => {
     setLandscape(DeviceInfo.isLandscapeSync() && DeviceInfo.isTablet());
   }, []);
 
-  Dimensions.addEventListener('change', ({window: {width, height}}) => {
-    if (DeviceInfo.isTablet()) setLandscape(width > height);
-    else setLandscape(false);
+  Dimensions.addEventListener('change', () => {
+    setLandscape(DeviceInfo.isLandscapeSync() && DeviceInfo.isTablet());
     setDirty(true);
   });
 

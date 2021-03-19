@@ -45,7 +45,7 @@ pathogenDb.push(
   ),
 );
 
-export default mockfetch = (url, params) => {
+const mockfetch = (url, params) => {
   console.log(`api: ${url} is invoked`);
   if (forceThrow) {
     return new Promise((resolve, reject) => {
@@ -94,3 +94,6 @@ export default mockfetch = (url, params) => {
     }, 1000);
   });
 };
+
+
+export default mockfetch;

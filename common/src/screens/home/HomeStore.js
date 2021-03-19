@@ -1,19 +1,25 @@
 import * as React from 'react';
+import AppStore from '../../AppStore';
 
 const HomeContext = React.createContext();
 const {Provider} = HomeContext;
 
 const HomeContextProvider = ({children}) => {
-  const [dirty, setDirty] = React.useState(true);
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const {
+    restApi, 
+    safeApiCall,
+    setPathogens,
+  } = AppStore.useAppContext();
 
+  const fetchPathogens = (query) => {
+    safeApiCall(async ()=> {
+      setPathogens(await restApi.getPathogens(query, 0));
+    })
+  };
   return (
     <Provider
       value={{
-        searchQuery,
-        setSearchQuery,
-        dirty,
-        setDirty
+        fetchPathogens
       }}>
       {children}
     </Provider>
