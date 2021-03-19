@@ -1,5 +1,4 @@
 import * as React from 'react';
-import AppStore from '../appStore';
 
 const HomeContext = React.createContext();
 const {Provider} = HomeContext;
@@ -25,4 +24,4 @@ const useHomeStoreContext = () => {
   return React.useContext(HomeContext);
 };
 
-export default {HomeContextProvider, useHomeStoreContext};
+export {HomeContextProvider, useHomeStoreContext};

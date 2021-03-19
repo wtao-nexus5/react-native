@@ -19,7 +19,7 @@ import {
   ActivityIndicator,
   Colors as PaperColor,
 } from 'react-native-paper';
-import AppStore from './screens/appStore';
+import {AppStore} from 'common-lib';
 import I18nStore from './I18n/I18nStore';
 import DeviceInfo from 'react-native-device-info';
 
@@ -29,8 +29,8 @@ const PortraitRoot = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='Details' component={DetailScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -42,7 +42,7 @@ const TabletLandscapeRoot = () => {
       <View style={{width: '40%'}}>
         <HomeScreen />
       </View>
-      <View style={{width: 2, backgroundColor: 'lightgray'}}/>
+      <View style={{width: 2, backgroundColor: 'lightgray'}} />
       <View style={{width: '60%'}}>
         <DetailScreen />
       </View>
@@ -83,7 +83,7 @@ const AppRoot = () => {
         style={{position: 'absolute', top: '50%', left: '45%'}}
         animating={busy}
         color={PaperColor.blue800}
-        size='large'
+        size="large"
       />
     </PaperProvider>
   );

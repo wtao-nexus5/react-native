@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
-import HomeStore from './HomeStore';
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar, Button, Card, Paragraph} from 'react-native-paper';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AppStore from '../appStore';
+import {HomeStore, AppStore} from 'common-lib';
 
 const HomeScreenRoot = () => {
   const {

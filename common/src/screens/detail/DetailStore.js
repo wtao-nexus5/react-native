@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AppStore from '../appStore';
+import {useAppContext} from '../../AppStore';
 import CryptoJS from 'crypto-js';
 import validateError from './DetailFieldValidator';
 
@@ -22,7 +22,7 @@ const DetailContextProvider = ({children}) => {
     pathogens,
     safeApiCall,
     setPathogens
-  } = AppStore.useAppContext();
+  } = useAppContext();
 
   const fetchPathogen = pid => {
     safeApiCall( async() => {
@@ -82,8 +82,6 @@ const DetailContextProvider = ({children}) => {
     return pathogen[keys[fieldIndex + 1]];
   }
 
-  const resetPathogen = () => setPathogen(emptyPathogen);
-
   const fields = [
     'ID_FIELD_NAME',
     'ID_FIELD_SCIENTIFIC_NAME',
@@ -129,4 +127,4 @@ const useDetailStoreContext = () => {
   return React.useContext(DetailContext);
 };
 
-export default {DetailContextProvider, useDetailStoreContext};
+export {DetailContextProvider, useDetailStoreContext};
