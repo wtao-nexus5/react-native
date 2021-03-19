@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useAppContext} from '../../AppStore';
+import AppStore from '../../AppStore';
 import CryptoJS from 'crypto-js';
 import validateError from './DetailFieldValidator';
 
@@ -22,7 +22,7 @@ const DetailContextProvider = ({children}) => {
     pathogens,
     safeApiCall,
     setPathogens
-  } = useAppContext();
+  } = AppStore.useAppContext();
 
   const fetchPathogen = pid => {
     safeApiCall( async() => {
@@ -127,4 +127,4 @@ const useDetailStoreContext = () => {
   return React.useContext(DetailContext);
 };
 
-export {DetailContextProvider, useDetailStoreContext};
+export default {DetailContextProvider, useDetailStoreContext};

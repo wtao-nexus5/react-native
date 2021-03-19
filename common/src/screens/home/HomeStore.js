@@ -24,4 +24,4 @@ const useHomeStoreContext = () => {
   return React.useContext(HomeContext);
 };
 
-export {HomeContextProvider, useHomeStoreContext};
+export default {HomeContextProvider, useHomeStoreContext};

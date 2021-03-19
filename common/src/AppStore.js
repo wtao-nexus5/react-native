@@ -65,4 +65,4 @@ const useAppContext = () => {
   return React.useContext(AppContext);
 };
 
-export {AppContextProvider, useAppContext};
+export default {AppContextProvider, useAppContext};

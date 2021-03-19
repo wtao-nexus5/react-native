@@ -2,8 +2,7 @@ import * as React from 'react';
 import {SafeAreaView, FlatList, StyleSheet, View} from 'react-native';
 import {TextInput, Button, Title} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import {AppStore, DetailStore}from 'common-lib';
-import I18nStore from '../../I18n/I18nStore';
+import {AppStore, DetailStore, I18nStore}from 'common-lib';
 
 const DetailScreenRoot = props => {
   const {

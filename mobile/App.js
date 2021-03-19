@@ -19,8 +19,7 @@ import {
   ActivityIndicator,
   Colors as PaperColor,
 } from 'react-native-paper';
-import {AppStore} from 'common-lib';
-import I18nStore from './I18n/I18nStore';
+import {AppStore, I18nStore} from 'common-lib';
 import DeviceInfo from 'react-native-device-info';
 
 const Stack = createStackNavigator();
@@ -58,8 +57,12 @@ const AppRoot = () => {
     busy,
     landscape,
     setLandscape,
-    setDirty,
+    setDirty
   } = AppStore.useAppContext();
+
+  React.useEffect(() => {
+    setLandscape(DeviceInfo.isLandscapeSync() && DeviceInfo.isTablet());
+  }, []);
 
   Dimensions.addEventListener('change', ({window: {width, height}}) => {
     if (DeviceInfo.isTablet()) setLandscape(width > height);
