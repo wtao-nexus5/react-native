@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {AppStore, I18nStore, RestApis} from 'common-lib';
+import {AppStore, I18nStore, RestApi} from 'common-lib';
 import {BrowserRouter as Router} from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppStore.AppContextProvider api={new RestApis('www.example.com')}>
+    <AppStore.AppContextProvider api={new RestApi('www.example.com')}>
       <I18nStore.I18nProvider>
         <Router>
           <App />
