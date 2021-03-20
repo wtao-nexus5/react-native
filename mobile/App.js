@@ -19,7 +19,7 @@ import {
   ActivityIndicator,
   Colors as PaperColor,
 } from 'react-native-paper';
-import {AppStore, I18nStore} from 'common-lib';
+import {AppStore, I18nStore, RestApi} from 'common-lib';
 import DeviceInfo from 'react-native-device-info';
 
 const Stack = createStackNavigator();
@@ -98,8 +98,9 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const api = new RestApi('www.example.com');
   return (
-    <AppStore.AppContextProvider>
+    <AppStore.AppContextProvider api={api}>
       <I18nStore.I18nProvider>
         <AppRoot />
       </I18nStore.I18nProvider>

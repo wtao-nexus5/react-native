@@ -15,7 +15,7 @@
     "@react-navigation/stack": "^5.14.3",
     "common-lib": "file:../common",
     "crypto-js": "^4.0.0",
-    "react": "17.0.1",
+    "react": "16.14.0",
     "react-native": "0.64.0",
     "react-native-action-button": "^2.8.5",
     "react-native-device-info": "^8.0.5",
@@ -35,7 +35,7 @@
     "eslint": "7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
-    "react-test-renderer": "^17.0.1"
+    "react-test-renderer": "16.14.0"
   },
   "jest": {
     "preset": "react-native",

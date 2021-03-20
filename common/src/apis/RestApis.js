@@ -1,6 +1,8 @@
-export default class RestApis {
-  constructor(fetch, backendUrl) {
-    this.fetch = fetch;
+import MockFetch from '../mock/MockFetch';
+
+class RestApis {
+  constructor(backendUrl) {
+    this.fetch = MockFetch;
     this.backendUrl = backendUrl;
   }
 
@@ -41,5 +43,6 @@ export default class RestApis {
       body: file,
     })
   }
-
 }
+
+export default RestApis;

@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {AppStore, I18nStore} from 'common-lib';
-import { BrowserRouter as Router} from 'react-router-dom';
+import {AppStore, I18nStore, RestApis} from 'common-lib';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppStore.AppContextProvider>
+    <AppStore.AppContextProvider api={new RestApis('www.example.com')}>
       <I18nStore.I18nProvider>
         <Router>
           <App />
@@ -16,7 +16,7 @@ ReactDOM.render(
       </I18nStore.I18nProvider>
     </AppStore.AppContextProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

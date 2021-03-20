@@ -12,10 +12,10 @@ jest.mock('react', () => ({
 
 describe('AppStore', () => {
   it('provides', () => {
-    const useStateSpy = jest.spyOn(React, 'useState')
-    useStateSpy.mockImplementation((_) => [null, jest.fn()])
-    const wrapper = shallow(<AppStore.AppContextProvider />)
-    const keys = Object.keys(wrapper.props().value)
+    const useStateSpy = jest.spyOn(React, 'useState');
+    useStateSpy.mockImplementation((_) => [null, jest.fn()]);
+    const wrapper = shallow(<AppStore.AppContextProvider />);
+    const keys = Object.keys(wrapper.props().value);
     const fieldNames = [
       'pathogens',
       'setPathogens',
@@ -38,11 +38,11 @@ describe('AppStore', () => {
       'setSearchQuery',
       'dirty',
       'setDirty'
-    ]
+    ];
     const allMatch = keys.reduce(
       (accum, key) => accum && (fieldNames.indexOf(key) > -1 ? true : false),
       true
     );
-    expect(allMatch).toBe(true)
+    expect(allMatch).toBe(true);
   })
 })
