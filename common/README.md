@@ -4,7 +4,7 @@
 
 2. A `babel.config.js` is provisioned with presets and supports for `async/await`
 
-3. Rendering using the `Enzyme` library. Documentation at [here](https://enzymejs.github.io/enzyme/#basic-usage). 
+3. Render using the `Enzyme` library. Documentation at [here](https://enzymejs.github.io/enzyme/#basic-usage). 
 
 4. Visual Studio Code to install the `Jest Runner` extension - make sure your unit test file is name as xxx.test.js so that you can `Run or Interactively debug with breakpoints`with you test cases.
 

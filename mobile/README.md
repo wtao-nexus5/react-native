@@ -6,7 +6,7 @@
 
 3. `react-native-device-info` is also similarily provisioned by a [setup_react-native-device-info.js](./jest/setup_react-native-device-info.js) file and in the [package.json](./package.json)
 
-4. Rendering using `@testing-library/react-native`. Documentation at [here](https://callstack.github.io/react-native-testing-library/docs/getting-started/). 
+4. Render using `@testing-library/react-native`. Documentation at [here](https://callstack.github.io/react-native-testing-library/docs/getting-started/). 
 
 5. Visual Studio Code to install the `Jest Runner` extension - make sure your unit test file is name as xxx.test.js so that you can `Run or Interactively debug with breakpoints`with you test cases.
 
