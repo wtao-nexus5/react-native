@@ -1,30 +1,11 @@
-# common
+# React common library
+## Unit test with jest
+1. Jest setup is included by default when running `npx create-react-app <project name>`. Overview can be found at [here](https://reactjs.org/docs/testing.html)
 
-> Made with create-react-library
+2. A `babel.config.js` is provisioned with presets and supports for `async/await`
 
-[![NPM](https://img.shields.io/npm/v/common.svg)](https://www.npmjs.com/package/common) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+3. Rendering using the `Enzyme` library. Documentation at [here](https://enzymejs.github.io/enzyme/#basic-usage). 
 
-## Install
+4. Visual Studio Code to install the `Jest Runner` extension - make sure your unit test file is name as xxx.test.js so that you can `Run or Interactively debug with breakpoints`with you test cases.
 
-```bash
-npm install --save common
-```
-
-## Usage
-
-```jsx
-import React, { Component } from 'react'
-
-import MyComponent from 'common'
-import 'common/dist/index.css'
-
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
-```
-
-## License
-
-MIT © [](https://github.com/)
+5. Write your unit test and happy TDD

@@ -60,3 +60,4 @@ buck-out/
 
 **/yarn.lock
 **/Podfile.lock
+**/coverage
